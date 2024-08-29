@@ -21,3 +21,4 @@ FOREIGN KEY (category) REFERENCES categoria(id);
 
 insert into categoria(nome) values ("esportes");
 select * from categoria;
+ 

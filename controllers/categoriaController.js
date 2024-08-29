@@ -3,7 +3,7 @@ const Categoria = require('../models/categoriaModel');
 const categoriaController = {
     // Renderiza o formulário de criação de uma nova categoria
     renderCreateForm: (req, res) => {
-        res.render('categorias/create');
+        res.render('categorias/create'); 
     },
 
     // Cria uma nova categoria

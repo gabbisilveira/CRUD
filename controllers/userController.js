@@ -9,7 +9,7 @@ const userController = {
         };
 
         User.create(newUser, (err, userId) => {
-            if (err) {
+            if (err) { 
                 return res.status(500).json({ error: err });
             }
             res.redirect('/users');

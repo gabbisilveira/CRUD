@@ -7,7 +7,7 @@ const produtoController = {
     },
 
     // Cria um novo produto
-    createProduto: (req, res) => {
+    createProduto: (req, res) => { 
         const newProduto = {
             name: req.body.name,
             price: parseFloat(req.body.price),

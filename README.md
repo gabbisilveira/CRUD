@@ -24,7 +24,7 @@ Este é um sistema de gerenciamento de usuários desenvolvido com Node.js, Expre
 ### 2. Instale as Dependências
 
 Certifique-se de que você tem o Node.js e o MySQL instalados. Em seguida, execute o comando para instalar as dependências do projeto:
-
+ 
 ### 3. Configure o Banco de Dados
 
 Crie um banco de dados no MySQL, por exemplo, user_management.

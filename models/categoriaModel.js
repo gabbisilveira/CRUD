@@ -10,7 +10,7 @@ const Categoria = {
             }
             callback(null, results.insertId);
         });
-    },
+    }, 
 
     // Encontra um produto por ID
     findById: (id, callback) => {
