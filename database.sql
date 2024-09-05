@@ -1,24 +1,26 @@
+CREATE DATABASE CRUD;
+
 USE CRUD;
 
-drop table produtos;
-drop table categoria;
-
-CREATE TABLE produtos (
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100),
-    category int NOT NULL,
-    price VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'user') NOT NULL
 );
-CREATE TABLE categoria (
+
+CREATE TABLE categorias (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100)
+    nome VARCHAR(255) NOT NULL
 );
 
-ALTER TABLE produtos
-ADD CONSTRAINT fk_categoria
-FOREIGN KEY (category) REFERENCES categoria(id);
-
-insert into categoria(nome) values ("esportes");
-select * from categoria;
- 
+//crie a tabela produtos com os campos id, nome, descricao e preco
+CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    quantidade INT NOT NULL,
+    categoria INT NOT NULL,
+    FOREIGN KEY (categoria) REFERENCES categorias(id)
+);

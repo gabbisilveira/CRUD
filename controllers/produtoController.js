@@ -1,17 +1,16 @@
 const Produto = require('../models/produtoModel');
+const Categoria = require('../models/categoriaModel');
 
 const produtoController = {
-    // Renderiza o formulário de criação de um novo produto
-    renderCreateForm: (req, res) => {
-        res.render('produtos/create');
-    },
 
-    // Cria um novo produto
-    createProduto: (req, res) => { 
+    createProduto: (req, res) => {
+
         const newProduto = {
-            name: req.body.name,
-            price: parseFloat(req.body.price),
-            category: req.body.category,
+            nome: req.body.nome,
+            descricao: req.body.descricao,
+            preco: req.body.preco,
+            quantidade: req.body.quantidade,
+            categoria: req.body.categoria
         };
 
         Produto.create(newProduto, (err, produtoId) => {
@@ -22,7 +21,6 @@ const produtoController = {
         });
     },
 
-    // Obtém um produto por ID
     getProdutoById: (req, res) => {
         const produtoId = req.params.id;
 
@@ -33,26 +31,35 @@ const produtoController = {
             if (!produto) {
                 return res.status(404).json({ message: 'Produto not found' });
             }
-            produto.price = parseFloat(produto.price);
             res.render('produtos/show', { produto });
         });
     },
-
-    // Obtém todos os produtos
+    
     getAllProdutos: (req, res) => {
-        Produto.getAll((err, produtos) => {
+        const categoria = req.query.categoria || null;
+        
+        Produto.getAll(categoria, (err, produtos) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            // Converter preços para números
-            produtos.forEach(produto => {
-                produto.price = parseFloat(produto.price);
+            Categoria.getAll((err, categorias) => {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+                res.render('produtos/index', { produtos, categorias, categoriaSelecionada: categoria });
             });
-            res.render('produtos/index', { produtos });
         });
     },
 
-    // Renderiza o formulário de edição de um produto
+    renderCreateForm: (req, res) => {
+        Categoria.getAll((err, categorias) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.render('produtos/create', { categorias });
+        });
+    },
+
     renderEditForm: (req, res) => {
         const produtoId = req.params.id;
 
@@ -63,17 +70,25 @@ const produtoController = {
             if (!produto) {
                 return res.status(404).json({ message: 'Produto not found' });
             }
-            res.render('produtos/edit', { produto });
+
+            Categoria.getAll((err, categorias) => {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+                res.render('produtos/edit', { produto, categorias });
+            });
         });
     },
 
-    // Atualiza um produto
     updateProduto: (req, res) => {
         const produtoId = req.params.id;
+        
         const updatedProduto = {
-            name: req.body.name,
-            price: parseFloat(req.body.price),
-            category: req.body.category,
+            nome: req.body.nome,
+            descricao: req.body.descricao,
+            preco: req.body.preco,
+            quantidade: req.body.quantidade,
+            categoria: req.body.categoria
         };
 
         Produto.update(produtoId, updatedProduto, (err) => {
@@ -84,7 +99,6 @@ const produtoController = {
         });
     },
 
-    // Deleta um produto
     deleteProduto: (req, res) => {
         const produtoId = req.params.id;
 
@@ -94,7 +108,7 @@ const produtoController = {
             }
             res.redirect('/produtos');
         });
-    },
+    }
 };
 
 module.exports = produtoController;

@@ -1,15 +1,9 @@
 const Categoria = require('../models/categoriaModel');
 
 const categoriaController = {
-    // Renderiza o formulário de criação de uma nova categoria
-    renderCreateForm: (req, res) => {
-        res.render('categorias/create'); 
-    },
-
-    // Cria uma nova categoria
     createCategoria: (req, res) => {
         const newCategoria = {
-            name: req.body.name
+            nome: req.body.nome
         };
 
         Categoria.create(newCategoria, (err, categoriaId) => {
@@ -20,7 +14,6 @@ const categoriaController = {
         });
     },
 
-    // Obtém uma categoria por ID
     getCategoriaById: (req, res) => {
         const categoriaId = req.params.id;
 
@@ -35,7 +28,6 @@ const categoriaController = {
         });
     },
 
-    // Obtém todas as categorias
     getAllCategorias: (req, res) => {
         Categoria.getAll((err, categorias) => {
             if (err) {
@@ -45,7 +37,10 @@ const categoriaController = {
         });
     },
 
-    // Renderiza o formulário de edição de uma categoria existente
+    renderCreateForm: (req, res) => {
+        res.render('categorias/create');
+    },
+
     renderEditForm: (req, res) => {
         const categoriaId = req.params.id;
 
@@ -60,11 +55,10 @@ const categoriaController = {
         });
     },
 
-    // Atualiza uma categoria existente
     updateCategoria: (req, res) => {
         const categoriaId = req.params.id;
         const updatedCategoria = {
-            name: req.body.name
+            nome: req.body.nome
         };
 
         Categoria.update(categoriaId, updatedCategoria, (err) => {
@@ -75,7 +69,6 @@ const categoriaController = {
         });
     },
 
-    // Deleta uma categoria
     deleteCategoria: (req, res) => {
         const categoriaId = req.params.id;
 
@@ -85,7 +78,7 @@ const categoriaController = {
             }
             res.redirect('/categorias');
         });
-    },
+    }
 };
 
 module.exports = categoriaController;

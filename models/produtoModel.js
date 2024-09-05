@@ -1,10 +1,9 @@
 const db = require('../config/db');
 
 const Produto = {
-    // Cria um novo produto
     create: (produto, callback) => {
-        const query = 'INSERT INTO produtos (nome, price, category) VALUES (?, ?, ?)';
-        db.query(query, [produto.name, produto.price, produto.category], (err, results) => {
+        const query = 'INSERT INTO produtos (nome, descricao, preco, quantidade, categoria) VALUES (?, ?, ?, ?, ?)';
+        db.query(query, [produto.nome, produto.descricao, produto.preco, produto.quantidade, produto.categoria], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -12,9 +11,8 @@ const Produto = {
         });
     },
 
-    // Encontra um produto por ID
     findById: (id, callback) => {
-        const query = 'SELECT * FROM produtos WHERE id = ?';
+        const query = 'SELECT produtos.*, categorias.nome AS categoria_nome FROM produtos JOIN categorias ON produtos.categoria = categorias.id WHERE produtos.id = ?';
         db.query(query, [id], (err, results) => {
             if (err) {
                 return callback(err);
@@ -23,10 +21,9 @@ const Produto = {
         });
     },
 
-    // Atualiza um produto existente
     update: (id, produto, callback) => {
-        const query = 'UPDATE produtos SET nome = ?, price = ?, category = ? WHERE id = ?';
-        db.query(query, [produto.name, produto.price, produto.category, id], (err, results) => {
+        const query = 'UPDATE produtos SET nome = ?, preco = ?, descricao = ?, quantidade = ?, categoria = ? WHERE id = ?';
+        db.query(query, [produto.nome, produto.preco, produto.descricao, produto.quantidade, produto.categoria, id], (err, results) => {
             if (err) {
                 return callback(err);
             }
@@ -34,7 +31,6 @@ const Produto = {
         });
     },
 
-    // Deleta um produto por ID
     delete: (id, callback) => {
         const query = 'DELETE FROM produtos WHERE id = ?';
         db.query(query, [id], (err, results) => {
@@ -45,16 +41,21 @@ const Produto = {
         });
     },
 
-    // Obtém todos os produtos
-    getAll: (callback) => {
-        const query = 'SELECT * FROM produtos';
-        db.query(query, (err, results) => {
+    getAll: (categoria, callback) => {
+        let query = 'SELECT produtos.id, produtos.nome, produtos.descricao, produtos.preco, produtos.quantidade, categorias.nome AS categoria_nome FROM produtos JOIN categorias ON produtos.categoria = categorias.id';
+        
+        if (categoria) {
+            query += ' WHERE produtos.categoria = ?';
+        }
+    
+        db.query(query, [categoria], (err, results) => {
             if (err) {
                 return callback(err);
             }
             callback(null, results);
         });
     },
+    
 };
 
 module.exports = Produto;

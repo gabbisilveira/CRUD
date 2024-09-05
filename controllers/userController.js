@@ -9,7 +9,7 @@ const userController = {
         };
 
         User.create(newUser, (err, userId) => {
-            if (err) { 
+            if (err) {
                 return res.status(500).json({ error: err });
             }
             res.redirect('/users');
@@ -81,6 +81,17 @@ const userController = {
                 return res.status(500).json({ error: err });
             }
             res.redirect('/users');
+        });
+    },
+
+    searchUsers: (req, res) => {
+        const search = req.query.search || '';
+
+        User.searchByName(search, (err, users) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.json({ users });
         });
     },
 };
