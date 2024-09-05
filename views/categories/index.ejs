@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todas as Categorias</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Todas as Categorias</h1>
+        
+        <!-- Botão para adicionar uma nova categoria -->
+        <a href="/categories/new" class="btn btn-success mb-3">Adicionar Nova Categoria</a>
+        
+        <!-- Tabela de Categorias -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% categories.forEach(category => { %>
+                    <tr>
+                        <td><%= category.id %></td>
+                        <td><%= category.name %></td>
+                        <td>
+                            <a href="/categories/<%= category.id %>" class="btn btn-primary">Visualizar</a>
+                            <a href="/categories/<%= category.id %>/edit" class="btn btn-warning">Editar</a>
+                            <form action="/categories/<%= category.id %>?_method=DELETE" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
